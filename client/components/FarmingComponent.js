@@ -1,11 +1,11 @@
 import {useEffect, useState} from 'react'
 import Image from 'next/image';
-import tether from '../public/tether.svg'
+import daeri from '../public/daeri.svg'
 import {connectWithWallet, etherToWei, round, weiToEther} from '../utils/helper'
 import { toastError } from '../utils/toastMessage';
-import { buyTether, issueReword, stakeToken,unStakeToken } from '../utils/interaction';
+import { buyDaeri, issueReword, stakeToken,unStakeToken } from '../utils/interaction';
 
-const FarmingComponent = ({walletAddress,web3,farmingContract,brownieContract,tetherContract,ownerAddress}) => {
+const FarmingComponent = ({walletAddress,web3,farmingContract,sawonContract,daeriContract,ownerAddress}) => {
 
     const [inputBalance, setInputBalance] = useState(0);
     const [stakingBalance, setStakingBalance] = useState(0);
@@ -13,13 +13,13 @@ const FarmingComponent = ({walletAddress,web3,farmingContract,brownieContract,te
     const [walletBalance, setWalletBalance] = useState(0);
 
     useEffect(() => {
-        if(walletAddress && tetherContract && farmingContract && brownieContract && web3){
+        if(walletAddress && daeriContract && farmingContract && sawonContract && web3){
             (async()=>{
-                const amount = await tetherContract.methods.balanceOf(walletAddress).call();
+                const amount = await daeriContract.methods.balanceOf(walletAddress).call();
                 setWalletBalance(weiToEther(web3,amount))
                 const stakingBalance = await farmingContract.methods.stakingBalance(walletAddress).call();
                 setStakingBalance(weiToEther(web3,stakingBalance))
-                const rewordBalance = await brownieContract.methods.balanceOf(walletAddress).call();
+                const rewordBalance = await sawonContract.methods.balanceOf(walletAddress).call();
                 setRewordBalance(weiToEther(web3,rewordBalance))
             })()
         }
@@ -32,7 +32,7 @@ const FarmingComponent = ({walletAddress,web3,farmingContract,brownieContract,te
         }
 
         if(walletBalance <=  inputBalance){
-            toastError("You dont have enough tether balance to stake !");
+            toastError("You dont have enough daeri balance to stake !");
             return;
         }
 
@@ -46,12 +46,12 @@ const FarmingComponent = ({walletAddress,web3,farmingContract,brownieContract,te
             toastError(err)
         }
 
-        stakeToken(farmingContract,tetherContract,walletAddress,etherToWei(web3,inputBalance),onSuccess,onError)
+        stakeToken(farmingContract,daeriContract,walletAddress,etherToWei(web3,inputBalance),onSuccess,onError)
     }
 
     const unStakeBalance = () =>{
         if(stakingBalance < 1){
-            toastError("You dont have enough tether to un-staking !");
+            toastError("You dont have enough daeri to un-staking !");
             return;
         }
 
@@ -71,7 +71,7 @@ const FarmingComponent = ({walletAddress,web3,farmingContract,brownieContract,te
         unStakeToken(farmingContract,walletAddress,etherToWei(web3,String(stakingBalance)),onSuccess,onError)
     }
 
-    const purchaseTether = () =>{
+    const purchaseDaeri = () =>{
 
         if(!farmingContract){
             toastError("Invalid chain !");
@@ -89,15 +89,15 @@ const FarmingComponent = ({walletAddress,web3,farmingContract,brownieContract,te
         const onError = (err) =>{
             toastError(err)
         }
-        buyTether(farmingContract,walletAddress,etherToWei(web3,"2"),onSuccess,onError)
+        buyDaeri(farmingContract,walletAddress,etherToWei(web3,"2"),onSuccess,onError)
     }
 
   return (
     <div className='farming-container self-center m-2 lg:m-0'>
 
-        <h1 className='text-xl text-white font-bold'>Brownie Yield Farm</h1>
+        <h1 className='text-xl text-white font-bold'>Sawon Yield Farm</h1>
         <div className='flex justify-between pt-1'>
-            <p className='text-sm text-white'><strong className='font-bold'>Wallet balance :</strong> {walletBalance} <small className='font-bold'>TETHER</small></p>
+            <p className='text-sm text-white'><strong className='font-bold'>Wallet balance :</strong> {walletBalance} <small className='font-bold'>DAERI</small></p>
             {
                 walletAddress?
                     <p className='text-sm text-white font-bold w-20 lg:w-40 truncate'>{walletAddress}</p>
@@ -119,14 +119,14 @@ const FarmingComponent = ({walletAddress,web3,farmingContract,brownieContract,te
         <div className="flex flex-row pt-6">
             <input type="number" placeholder="Type here" value={inputBalance} onChange={e=>setInputBalance(e.target.value)} className="input rounded-l-md" />
             <span className="input-btn-label flex items-center justify-center" >
-                <Image src={tether} width={30} height={30} alt="tether image"/>
-                <p className='font-white font-bold'>Tether</p>
+                <Image src={daeri} width={30} height={30} alt="daeri image"/>
+                <p className='font-white font-bold'>Daeri</p>
             </span>
         </div>
 
         <button className='stake' onClick={()=>stakeBalance()}>STAKE</button>
         <button className='un-stake' onClick={()=>unStakeBalance()}>UN-STAKE</button>
-        <button className='add-tether' onClick={()=>purchaseTether()}>Add 2TETHER in your account for testing</button>
+        <button className='add-daeri' onClick={()=>purchaseDaeri()}>Add 2DAERI in your account for testing</button>
         {
           (walletAddress && ownerAddress) && (walletAddress == ownerAddress) ?
           <button className='p-2 bg-white font-bold w-full rounded-sm ' onClick={()=>issueReword(farmingContract,walletAddress)}>Issue reword</button>

@@ -2,12 +2,12 @@
 pragma solidity ^0.8.4;
 
 import "hardhat/console.sol";
-import "./BrownieToken.sol";
-import "./TetherToken.sol";
+import "./SaWonToken.sol";
+import "./DaeriToken.sol";
 
 contract YieldFarming{
-    BrownieToken public brownieToken;
-    TetherToken public tetherToken;
+    SaWonToken public sawonToken;
+    DaeriToken public daeriToken;
     address public owner;
 
     address[] public stakers;
@@ -21,9 +21,9 @@ contract YieldFarming{
         _;
     }
 
-    constructor(BrownieToken _brownieAddress,TetherToken _tetherAddress){
-        brownieToken=_brownieAddress;
-        tetherToken=_tetherAddress;
+    constructor(SaWonToken _sawonAddress,DaeriToken _daeriAddress){
+        sawonToken=_sawonAddress;
+        daeriToken=_daeriAddress;
         owner=msg.sender;
     }    
 
@@ -31,7 +31,7 @@ contract YieldFarming{
     function stakeToken(uint _amount) public {
         require(_amount > 0,'Staking amount must be greater than 0');
         // Transfer balance from user address to contract address
-        tetherToken.transferFrom(msg.sender, address(this), _amount);
+        daeriToken.transferFrom(msg.sender, address(this), _amount);
         // Update staking balance
         stakingBalance[msg.sender] += _amount;
         //Push user address in stakers array if user haven't stake yet
@@ -46,7 +46,7 @@ contract YieldFarming{
     function unStakeToken(uint _amount) public {
         uint balance = stakingBalance[msg.sender];
         require(balance >= _amount,'You dont hant have enough amout to withdraw');
-        tetherToken.transfer(msg.sender, _amount);
+        daeriToken.transfer(msg.sender, _amount);
         stakingBalance[msg.sender] -= _amount;
         hasStake[msg.sender] = false;
     }
@@ -57,15 +57,15 @@ contract YieldFarming{
             address reciptant = stakers[i];
             uint balance = stakingBalance[reciptant];
             if(balance > 0){
-                brownieToken.transfer(reciptant, balance);
+                sawonToken.transfer(reciptant, balance);
             }
         }
     }  
 
-    // 4) Buy tether
-    function buyTether(uint256 _amount) public {
+    // 4) Buy daeri
+    function buyDaeri(uint256 _amount) public {
         require(_amount > 0);
-        tetherToken.transfer(msg.sender, _amount);
+        daeriToken.transfer(msg.sender, _amount);
     } 
 
 }

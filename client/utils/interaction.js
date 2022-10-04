@@ -1,6 +1,6 @@
 import Web3 from "web3";
-import brownieABI from '../artifacts/contracts/BrownieToken.sol/BrownieToken.json'
-import tetherABI from '../artifacts/contracts/TetherToken.sol/TetherToken.json'
+import sawonABI from '../artifacts/contracts/SaWonToken.sol/SaWonToken.json'
+import daeriABI from '../artifacts/contracts/DaeriToken.sol/DaeriToken.json'
 import yieldFarmingABI from '../artifacts/contracts/YieldFarming.sol/YieldFarming.json'
 
 // Load web3
@@ -15,24 +15,24 @@ export const loadAccount = async (web3) => {
     return account;
 };
 
-// Connect with Brownie Token contract
-export const loadBrownieTokenContract = async(web3) =>{
+// Connect with Sawon Token contract
+export const loadSaWonTokenContract = async(web3) =>{
     const network = await web3.eth.net.getId();
     if(network !== process.env.ChainId){
         return null
     }
-    const brownieToken = new web3.eth.Contract(brownieABI.abi,process.env.BrownieTokenAddress);
-    return brownieToken;
+    const sawonToken = new web3.eth.Contract(sawonABI.abi,process.env.SaWonTokenAddress);
+    return sawonToken;
 }
 
-// Connect with Tether Token contract
-export const loadTetherTokenContract = async(web3) =>{
+// Connect with Daeri Token contract
+export const loadDaeriTokenContract = async(web3) =>{
     const network = await web3.eth.net.getId();
     if(network !== process.env.ChainId){
         return null
     }
-    const tetherToken = new web3.eth.Contract(tetherABI.abi,process.env.TetherTokenAddress);
-    return tetherToken;
+    const daeriToken = new web3.eth.Contract(daeriABI.abi,process.env.DaeriTokenAddress);
+    return daeriToken;
 }
 
 // Connect with YieldFarming Token contract
@@ -45,8 +45,8 @@ export const loadYieldFarmingContract = async(web3) =>{
     return yieldFarmingToken;
 }
 
-export const stakeToken = async(farmingContract,tetherContract,address,amount,onSuccess,onError)=>{
-    await tetherContract.methods.approve(process.env.YieldFarmingAddress,amount).send({from:address})
+export const stakeToken = async(farmingContract,daeriContract,address,amount,onSuccess,onError)=>{
+    await daeriContract.methods.approve(process.env.YieldFarmingAddress,amount).send({from:address})
     .on('receipt', async function(receipt){
 
         await farmingContract.methods.stakeToken(amount).send({from:address})
@@ -85,9 +85,9 @@ export const issueReword = async(farmingContract,address) =>{
     })
 }
 
-export const buyTether = async(farmingContract,address,amount,onSuccess,onError) =>{
+export const buyDaeri = async(farmingContract,address,amount,onSuccess,onError) =>{
     console.log(amount)
-    await farmingContract.methods.buyTether(amount).send({from:address})
+    await farmingContract.methods.buyDaeri(amount).send({from:address})
     .on('receipt', function(receipt){
         onSuccess(amount)
      })

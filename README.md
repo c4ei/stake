@@ -5,9 +5,9 @@ https://user-images.githubusercontent.com/55044734/167285799-64d089c5-f884-428b-
 
 ### Project features :bulb:
 
-- [x] User can buy mTether token.
-- [x] User can stake tether token.
-- [x] User can unstake tether token.
+- [x] User can buy mDaeri token.
+- [x] User can stake daeri token.
+- [x] User can unstake daeri token.
 - [x] Admin can send reword token.
 - [x] If user stake 10 token then he will get same amount of reword token back .
 - [x] Connect with waller.

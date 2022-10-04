@@ -1,0 +1,12 @@
+test
+yarn hardhat compile
+------------------------------------------------------------------------
+npx hardhat run --network c4ei scripts/deploy.js
+SaWonToken deployed to: 0xf00Bbb9aE5eF6DfE6753B3dF415536302E6533aF
+DaeriToken deployed to: 0x8D0BeB976130d48FF7f14A1Aa96eda73f616a557
+YieldFarming deployed to: 0xA2feAa802fB0b354CA204ae12985303F72aAC51d
+------------------------------------------------------------------------
+npx hardhat run --network klay scripts/deploy.js
+SaWonToken deployed to: 0x5Cdd1192Ea901fC56f19aa6Ea718039566215C23
+DaeriToken deployed to: 0x62D4d9d8acD925e07707eE7149F9390Bd3311954
+YieldFarming deployed to: 0x196880757B4F67671180Dc289393F43047e0Dfc4

@@ -1,6 +1,6 @@
 import { useState,useEffect } from 'react'
 import Head from 'next/head'
-import { loadAccount, loadBrownieTokenContract, loadTetherTokenContract, loadWeb3, loadYieldFarmingContract } from '../utils/interaction';
+import { loadAccount, loadSaWonTokenContract, loadDaeriTokenContract, loadWeb3, loadYieldFarmingContract } from '../utils/interaction';
 import FarmingComponent from '../components/FarmingComponent';
 
 export default function Home() {
@@ -8,16 +8,16 @@ export default function Home() {
   const [web3Connection, setWeb3Connection] = useState(null);
   const [walletAddress, setWalletAddress] = useState(null);
   const [ownerAddress, setOwnerAddress] = useState(null);
-  const [brownieContract, setBrownieContract] = useState(null);
-  const [tetherContract, setTetherContract] = useState(null);
+  const [sawonContract, setSawonContract] = useState(null);
+  const [daeriContract, setDaeriContract] = useState(null);
   const [yieldFarmingContract, setYieldFarmingContract] = useState(null);
 
   useEffect(() => {
     (async()=>{
       const web3 = await loadWeb3();
       const wallet = await loadAccount(web3);
-      const brownieToken = await loadBrownieTokenContract(web3)
-      const tetherToken = await loadTetherTokenContract(web3)
+      const sawonToken = await loadSaWonTokenContract(web3)
+      const daeriToken = await loadDaeriTokenContract(web3)
       const yieldFarming = await loadYieldFarmingContract(web3)
       
       if(yieldFarming){
@@ -27,8 +27,8 @@ export default function Home() {
 
       setWeb3Connection(web3);
       setWalletAddress(wallet[0]);
-      setBrownieContract(brownieToken);
-      setTetherContract(tetherToken);
+      setSawonContract(sawonToken);
+      setDaeriContract(daeriToken);
       setYieldFarmingContract(yieldFarming);
       
     })()
@@ -47,8 +47,8 @@ export default function Home() {
         walletAddress={walletAddress}
         web3={web3Connection}
         farmingContract={yieldFarmingContract}
-        brownieContract={brownieContract}
-        tetherContract={tetherContract}
+        sawonContract={sawonContract}
+        daeriContract={daeriContract}
         ownerAddress={ownerAddress}
       />
 

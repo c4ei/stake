@@ -1,10 +1,10 @@
 const nextConfig = {
   reactStrictMode: true,
   env:{
-    BrownieTokenAddress: '0xca5d9b9F419797e5ca9BdC317051c67acCF84F49',
-    TetherTokenAddress: '0xca5d9b9F419797e5ca9BdC317051c67acCF84F49',
-    YieldFarmingAddress: '0xb3C4D05e47b681BFc5fE1E5F5b984180B17B8a89',
-    ChainId: 3
+    SaWonTokenAddress: '0xf00Bbb9aE5eF6DfE6753B3dF415536302E6533aF',
+    DaeriTokenAddress: '0x8D0BeB976130d48FF7f14A1Aa96eda73f616a557',
+    YieldFarmingAddress: '0xA2feAa802fB0b354CA204ae12985303F72aAC51d',
+    ChainId: 21004
   }
 }
 
